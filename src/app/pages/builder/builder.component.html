@@ -1,0 +1,16 @@
+<app-modal (modalData)="onReceiveModalData($event)"></app-modal>
+
+<ng-container *ngFor="let question of userQuestionList">
+  <app-builder-item [question]="question"></app-builder-item>
+</ng-container>
+<div class="container">
+  <button
+    type="button"
+    *ngIf="userQuestionList.length !== 0"
+    (click)="goToAnswer()"
+    class="btn btn-outline-primary mt-4"
+  >
+    Review my answers >
+  </button>
+</div>
+

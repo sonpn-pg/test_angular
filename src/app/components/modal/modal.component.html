@@ -1,0 +1,112 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formGroup" (onclick)="onSubmit()">
+      <div class="mb-3">
+        <label for="dateOfBirth">Question type</label>
+        <div class="input-group mt-2">
+          <select
+            formControlName="questionType"
+            class="form-select mb-3"
+            aria-label="Default select example"
+          >
+            <option [value]="QUESTION_TYPE.PARAGRAPH">
+              {{ QUESTION_TYPE.PARAGRAPH }}
+            </option>
+            <option [value]="QUESTION_TYPE.CHECKBOX">
+              {{ QUESTION_TYPE.CHECKBOX }}
+            </option>
+          </select>
+
+          <div class="input-group mb-3">
+            <input
+              formControlName="questionTitle"
+              type="text"
+              class="form-control"
+              placeholder="Type question here"
+              aria-label="Type question here"
+              aria-describedby="basic-addon1"
+            />
+          </div>
+
+          <div
+            class="width-100 alert alert-danger"
+            role="alert"
+            *ngIf="
+              formGroup.get('questionTitle')?.errors &&
+              formGroup.get('questionTitle')?.touched
+            "
+          >
+            This field is required!
+          </div>
+
+          <div formArrayName="answers" *ngIf="isCheckboxType">
+            <div
+              class="form-group row"
+              *ngFor="let c of answers.controls; index as i"
+            >
+              <div [formGroupName]="i" class="col-md-10 frame-answer">
+                <input
+                  class="form-control frame-answer"
+                  type="tel"
+                  id="example-tel-input"
+                  formControlName="title"
+                  placeholder="Add answer question"
+                  aria-label="Add answer question"
+                />
+              </div>
+            </div>
+            <div class="mb-2 text-primary button-add" (click)="addAnswers()">
+              + Add another answer
+            </div>
+          </div>
+        </div>
+        <div class="form-check" *ngIf="isCheckboxType">
+          <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="flexCheckDefault"
+                  formControlName="allowOwnAnswer"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            Allow user to specify their own answer
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="flexCheckChecked"
+                  formControlName="required"
+          />
+          <label class="form-check-label" for="flexCheckChecked">
+            This field is required
+          </label>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary"
+      [disabled]="!formGroup.valid"
+      (click)="onSubmit()"
+    >
+      Save
+    </button>
+  </div>
+</ng-template>
+<div class="container">
+  <p class="btn-line" (click)="open(content)">
+    Add new question
+  </p>
+</div>

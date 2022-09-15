@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <p *ngIf="question.required" class="fw-bold">
+        {{ question.questionTitle }} *
+      </p>
+      <p *ngIf="!question.required" class="fw-bold">
+        {{ question.questionTitle }}
+      </p>
+      <div>
+        <div *ngIf="question.questionType === QUESTION_TYPE.PARAGRAPH">
+      <textarea
+              id="answerTitle"
+              class="form-control"
+              [(ngModel)]="question.answerTitle"
+              (ngModelChange)="checkValidate($event)" (blur)="blurInput()"
+      ></textarea>
+
+          <div
+                  class="col alert alert-danger"
+                  role="alert"
+                  *ngIf="question.required && validate.dirty && validate.touch "
+          >
+            This field is required!
+          </div>
+        </div>
+
+        <div *ngIf="question.questionType === QUESTION_TYPE.CHECKBOX">
+          <div *ngFor="let item of question.answers; let i = index">
+            <div class="form-check">
+              <input
+                      class="form-check-input"
+                      [(ngModel)]="item.checked"
+                      type="checkbox"
+                      id="{{ question.questionType + '-' + i }}"
+                      (ngModelChange)="checkValidateChecklist()" (blur)="blurInput()"
+              />
+              <label
+                      class="form-check-label"
+                      for="{{ question.questionType + '-' + i }}"
+              >
+                {{ item.title }}
+              </label>
+            </div>
+          </div>
+          <div
+                  class="col alert alert-danger"
+                  role="alert"
+                  *ngIf="question.required && validate.dirty && validate.touch"
+          >
+            This field is required!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

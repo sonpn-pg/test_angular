@@ -1,0 +1,11 @@
+<div class="my-3">
+  <p class="fw-bold my-3">
+    {{ data.questionTitle }}
+  </p>
+  <div>
+    {{ data.answerTitle }}
+  </div>
+  <ng-container *ngFor="let answer of data.answers">
+    <div *ngIf="answer.checked">{{ answer.title }}</div>
+  </ng-container>
+</div>
